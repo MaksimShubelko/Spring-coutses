@@ -1,11 +1,12 @@
 package com.example.springcourses.services.map;
 
 import com.example.springcourses.entity.CorrectAnswer;
+import com.example.springcourses.services.CorrectAnswerService;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CorrectAnswerMapService extends AbstractMapService<CorrectAnswer, Long> {
+public class CorrectAnswerMapService extends AbstractMapService<CorrectAnswer, Long> implements CorrectAnswerService {
 
     private static final Map<Long, CorrectAnswer> resource = new HashMap<>();
 

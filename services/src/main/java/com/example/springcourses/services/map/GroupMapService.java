@@ -1,11 +1,12 @@
 package com.example.springcourses.services.map;
 
 import com.example.springcourses.entity.Group;
+import com.example.springcourses.services.GroupService;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GroupService extends AbstractMapService<Group, Long> {
+public class GroupMapService extends AbstractMapService<Group, Long> implements GroupService {
 
     private static final Map<Long, Group> resource = new HashMap<>();
 
