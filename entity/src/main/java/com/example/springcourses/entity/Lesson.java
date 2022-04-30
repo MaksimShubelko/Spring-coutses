@@ -1,8 +1,17 @@
 package com.example.springcourses.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Lesson implements BaseEntity<Long> {
     private Long lessonId;
     private LocalDateTime date;

@@ -1,7 +1,14 @@
 package com.example.springcourses.entity;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class CorrectAnswer implements BaseEntity<Long> {
     private Long correctAnswerId;
     private String answers;

@@ -20,6 +20,7 @@ public class User implements BaseEntity<UUID> {
     private String lastName;
     private Student student;
     private Teacher teacher;
+    private UserStatus userStatus;
 
     @Override
     public UUID getId() {
