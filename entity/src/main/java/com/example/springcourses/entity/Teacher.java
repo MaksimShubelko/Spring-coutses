@@ -12,6 +12,8 @@ import lombok.Setter;
 public class Teacher implements BaseEntity<Long> {
     private Long teacherId;
     private User user;
+    private Integer hours;
+    private Double salaryPerHour;
     private String description;
 
     @Override
