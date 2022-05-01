@@ -27,9 +27,15 @@
 
     <properties>
         <java.version>18</java.version>
+        <jasypt.version>3.0.3</jasypt.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
