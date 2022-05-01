@@ -13,13 +13,13 @@ public class Runner implements CommandLineRunner {
     @Value("${spring.datasource.password:undefined}")
     private String dbPwd;
 
-    @Qualifier("customEncryptor")
+    @Qualifier("pooledEncryptor")
     @Autowired
     StringEncryptor stringEncryptor;
 
     @Override
     public void run(String... args) throws Exception {
-        String pwd = "dev_pwd";
+        String pwd = "prod_pwd";
         String encrypt = stringEncryptor.encrypt(pwd);
         System.out.println(encrypt);
         String decrypt = stringEncryptor.decrypt(encrypt);
