@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @MapImplementation
-public class StudentMapService extends AbstractMapService<Student, Long> implements StudentService {
-    private static final Map<Long, Student> resource = new HashMap<>();
+public class StudentMapService extends AbstractMapService<Student, UUID> implements StudentService {
+    private static final Map<UUID, Student> resource = new HashMap<>();
 
     @Override
-    public Map<Long, Student> getResource() {
+    public Map<UUID, Student> getResource() {
         return resource;
     }
 }

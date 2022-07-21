@@ -1,17 +1,33 @@
 package com.example.springcourses.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Question implements BaseEntity<Long> {
+@Builder
+@Table(name = "questions")
+@Entity
+public class Question extends BaseEntity<Long> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
+
+    @OneToOne(mappedBy = "question")
+    @JoinColumn(name = "answer_id")
+    private Answer answer;
+
+    @ManyToOne
+    @JoinColumn(updatable = false, nullable = false, name = "test_id")
     private Test test;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "correct_answer_id")
+    private CorrectAnswer correctAnswer;
 
     @Override
     public Long getId() {

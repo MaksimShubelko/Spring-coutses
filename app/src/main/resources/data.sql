@@ -1,0 +1,1 @@
+INSERT INTO requests (LAST_MODIFIED_AT, request_status) values (now(), 'q')

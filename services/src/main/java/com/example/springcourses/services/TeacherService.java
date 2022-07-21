@@ -2,5 +2,7 @@ package com.example.springcourses.services;
 
 import com.example.springcourses.entity.Teacher;
 
-public interface TeacherService extends CrudService<Teacher, Long> {
+import java.util.UUID;
+
+public interface TeacherService extends CrudService<Teacher, UUID> {
 }

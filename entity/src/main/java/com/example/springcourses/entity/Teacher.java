@@ -1,23 +1,43 @@
 package com.example.springcourses.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Teacher implements BaseEntity<Long> {
-    private Long teacherId;
-    private User user;
+@SuperBuilder
+@Table(name = "teachers")
+@Entity
+public class Teacher extends User {
+
+    /*@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID teacherId;*/
+
+    @Column(name = "hour")
     private Integer hours;
+
+    @Column(name = "salary_per_hour")
     private Double salaryPerHour;
+
+    @ManyToMany(mappedBy = "teachers")
+    @Column(name = "lesson_id")
+    private List<Lesson> lessons;
+
+  /*  @OneToOne(cascade = CascadeType.ALL)
+    private User user;*/
+
+    @Column(name = "description")
     private String description;
 
-    @Override
-    public Long getId() {
+    /*@Override
+    public UUID getId() {
         return teacherId;
-    }
+    }*/
 }

@@ -1,25 +1,46 @@
 package com.example.springcourses.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class AcademicPerformance implements BaseEntity<Long> {
+@Builder
+@Table(name = "academic_performances")
+@Entity
+public class AcademicPerformance extends BaseEntity<Long> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long academicPerformanceId;
-    private Long testId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(updatable = false, nullable = false, name = "test_id")
+    private Test test;
+
+    @Column(name = "student_mark")
     private Double mark;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
     private Student student;
-    private LocalDateTime dateTime;
+
+    @Column(name = "time_passed")
+    private LocalDateTime timeOfPassed;
+
+    @OneToMany(mappedBy = "academicPerformance")
+    @Column(name = "answer_id")
+    private List<Answer> answers;
 
     @Override
     public Long getId() {
         return academicPerformanceId;
     }
+
 }
+
+

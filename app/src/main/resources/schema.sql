@@ -1,0 +1,242 @@
+create table CORRECT_ANSWERS
+(
+    CORRECT_ANSWER_ID BIGINT auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    CORRECT_ANSWER VARCHAR(255) not null
+);
+
+create table COURSES
+(
+    COURSE_ID BIGINT auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    COURSE_NAME VARCHAR(255)
+);
+
+create table GROUPS
+(
+    GROUP_ID BIGINT auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    DESCRIPTION VARCHAR(255)
+);
+
+create table LESSONS
+(
+    LESSON_ID BIGINT auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    DATE_LESSON TIMESTAMP,
+    THEME VARCHAR(255)
+);
+
+create table GROUPS_LESSONS
+(
+    GROUPS_GROUP_ID BIGINT not null,
+    LESSONS_LESSON_ID BIGINT not null,
+    constraint FKBTK9U31EE9PB2SX6QRCWSCLUW
+        foreign key (LESSONS_LESSON_ID) references LESSONS (LESSON_ID),
+    constraint FKKJTG1ART9K7O9D6IGMGA0WDB
+        foreign key (GROUPS_GROUP_ID) references GROUPS (GROUP_ID)
+);
+
+create table REQUESTS
+(
+    REQUEST_ID BIGINT auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    REQUEST_STATUS VARCHAR(255)
+);
+
+create table RECEIPT
+(
+    RECEIPT_ID BINARY auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    COST DECIMAL(19,2),
+    REQUEST_ID BIGINT,
+    STUDENT_ID BINARY,
+    constraint FK6CE8Y4MQIKQG6RO4EVFC74UHR
+        foreign key (REQUEST_ID) references REQUESTS (REQUEST_ID)
+);
+
+create table TESTS
+(
+    TEST_ID BIGINT auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    GROUP_ID BIGINT,
+    constraint FKOAX1N89LCD7VR7PUSQGRV2JVB
+        foreign key (GROUP_ID) references GROUPS (GROUP_ID)
+);
+
+create table QUESTIONS
+(
+    QUESTION_ID BIGINT auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    CORRECT_ANSWER_ID BIGINT,
+    TEST_ID BIGINT not null,
+    constraint FK1FCUN5MX8BJNSW84UG3IYC8EF
+        foreign key (CORRECT_ANSWER_ID) references CORRECT_ANSWERS (CORRECT_ANSWER_ID),
+    constraint FKOC6XKGJ16NHYYES4ATH9DYXXW
+        foreign key (TEST_ID) references TESTS (TEST_ID)
+);
+
+create table THEMES
+(
+    THEME_ID BIGINT auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    DESCRIPTION VARCHAR(255),
+    COURSE_ID BIGINT,
+    constraint FK2EPACBT8YL366KWLE5396860N
+        foreign key (COURSE_ID) references COURSES (COURSE_ID)
+);
+
+create table USERS
+(
+    USER_ID BINARY auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    EMAIL VARCHAR(255),
+    FIRST_NAME VARCHAR(255),
+    LAST_NAME VARCHAR(255),
+    LOGIN VARCHAR(255),
+    PASSWORD VARCHAR(255),
+    PHONE_NUMBER VARCHAR(255),
+    SURNAME VARCHAR(255),
+    USER_ROLE VARCHAR(255),
+    USER_STATUS VARCHAR(255)
+);
+
+create table STUDENTS
+(
+    TOTAL_MARK DOUBLE,
+    USER_ID BINARY not null
+        primary key,
+    GROUP_ID BIGINT,
+    RECEIPT_STATUS BINARY,
+    constraint FKDT1CJX5VE5BDABMUUF3IBRWAQ
+        foreign key (USER_ID) references USERS (USER_ID),
+    constraint FKMSEV1NOU0J86SPUK5JRV19MSS
+        foreign key (GROUP_ID) references GROUPS (GROUP_ID),
+    constraint FKNOPUHSETS986E1VRQNKK0OH8G
+        foreign key (RECEIPT_STATUS) references RECEIPT (RECEIPT_ID)
+);
+
+create table ACADEMIC_PERFORMANCES
+(
+    ACADEMIC_PERFORMANCE_ID BIGINT auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    STUDENT_MARK DOUBLE,
+    TIME_PASSED TIMESTAMP,
+    STUDENT_ID BINARY,
+    TEST_ID BIGINT not null,
+    constraint FKDRGMVFS22GG4EJTSYEJULAWK6
+        foreign key (TEST_ID) references TESTS (TEST_ID),
+    constraint FKI31XL4OY21XEGXKCL45Q6PHAL
+        foreign key (STUDENT_ID) references STUDENTS (USER_ID)
+);
+
+create table ANSWERS
+(
+    ANSWER_ID BIGINT auto_increment
+        primary key,
+    CREATED_AT TIMESTAMP,
+    CREATED_BY VARCHAR(255),
+    LAST_MODIFIED_AT TIMESTAMP not null,
+    LAST_MODIFIED_BY VARCHAR(255),
+    ANSWER VARCHAR(255),
+    DATE_PASSED TIMESTAMP,
+    ACADEMIC_PERFORMANCE_ID BIGINT,
+    QUESTION_ID BIGINT not null,
+    constraint FK3ERW1A3T0R78ST8TY27X6V3G1
+        foreign key (QUESTION_ID) references QUESTIONS (QUESTION_ID),
+    constraint FKGNSAF325A4PT7WKE29L6RG37S
+        foreign key (ACADEMIC_PERFORMANCE_ID) references ACADEMIC_PERFORMANCES (ACADEMIC_PERFORMANCE_ID)
+);
+
+create table GROUPS_STUDENTS
+(
+    GROUP_GROUP_ID BIGINT not null,
+    STUDENTS_USER_ID BINARY not null
+        constraint UK_RQ3DL04YLKBK61BN53HQ6U1PK
+            unique,
+    constraint FK85KF2QRE8A6CMKRRK3F84F4QU
+        foreign key (STUDENTS_USER_ID) references STUDENTS (USER_ID),
+    constraint FKO49UBYWR5BQ4ILAS7CLWCO7XW
+        foreign key (GROUP_GROUP_ID) references GROUPS (GROUP_ID)
+);
+
+alter table RECEIPT
+    add constraint FKTC39P4MPMYAGJ5KG3GT47L3A0
+        foreign key (STUDENT_ID) references STUDENTS (USER_ID);
+
+create table STUDENTS_ACADEMIC_PERFORMANCES
+(
+    STUDENT_USER_ID BINARY not null,
+    ACADEMIC_PERFORMANCES_ACADEMIC_PERFORMANCE_ID BIGINT not null
+        constraint UK_80E6R36CSPIMM8I2E3SJS052X
+            unique,
+    constraint FKOAXC2WU5XFXNVGB2WCU8R728Q
+        foreign key (ACADEMIC_PERFORMANCES_ACADEMIC_PERFORMANCE_ID) references ACADEMIC_PERFORMANCES (ACADEMIC_PERFORMANCE_ID),
+    constraint FKTHUTW9714OKUP0UH746REXQEW
+        foreign key (STUDENT_USER_ID) references STUDENTS (USER_ID)
+);
+
+create table TEACHERS
+(
+    DESCRIPTION VARCHAR(255),
+    HOUR INTEGER,
+    SALARY_PER_HOUR DOUBLE,
+    USER_ID BINARY not null
+        primary key,
+    constraint FKB8DCT7W2J1VL1R2BPSTW5ISC0
+        foreign key (USER_ID) references USERS (USER_ID)
+);
+
+create table LESSONS_TEACHERS
+(
+    LESSONS_LESSON_ID BIGINT not null,
+    TEACHERS_USER_ID BINARY not null,
+    constraint FKIX9OC2N2FQ8KHD9B998W5WL4P
+        foreign key (TEACHERS_USER_ID) references TEACHERS (USER_ID),
+    constraint FKOUUAGKNPSRD377FDBSQ1CET4S
+        foreign key (LESSONS_LESSON_ID) references LESSONS (LESSON_ID)
+);

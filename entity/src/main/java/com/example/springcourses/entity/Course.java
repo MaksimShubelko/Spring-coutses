@@ -1,20 +1,28 @@
 package com.example.springcourses.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.ui.context.Theme;
+import lombok.*;
 
+import javax.persistence.*;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Course implements BaseEntity<Long> {
+@Builder
+@Table(name = "courses")
+@Entity
+public class Course extends BaseEntity<Long> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseId;
+
+    @Column(name = "course_name")
     private String courseName;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @Column(nullable = false, name = "theme_id")
     private List<Theme> themes;
 
     @Override
