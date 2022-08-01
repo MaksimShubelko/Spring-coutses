@@ -64,7 +64,7 @@ create table REQUESTS
     REQUEST_STATUS VARCHAR(255)
 );
 
-create table RECEIPT
+create table RECEIPTS
 (
     RECEIPT_ID BINARY auto_increment
         primary key,
@@ -204,7 +204,7 @@ create table GROUPS_STUDENTS
         foreign key (GROUP_GROUP_ID) references GROUPS (GROUP_ID)
 );
 
-alter table RECEIPT
+alter table RECEIPTS
     add constraint FKTC39P4MPMYAGJ5KG3GT47L3A0
         foreign key (STUDENT_ID) references STUDENTS (USER_ID);
 

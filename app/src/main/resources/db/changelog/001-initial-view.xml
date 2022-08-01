@@ -4,7 +4,31 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-                   http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+                   http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
+    <changeSet id="27072022-student_receipt_view-v2" author="shubelko">
+        <sql> drop view if exists student_receipt; </sql>
+        <createView viewName="student_receipt" fullDefinition="true">
+            create view student_receipt (
+            receipt_id,
+            total_amount,
+            payer,
+            payer_phone,
+            date_of_payment,
+            status
+            ) as select
+            r.RECEIPT_ID,
+            r.COST,
+            u.FULL_NAME,
+            u.PHONE_NUMBER,
+            r.DATE_OF_PAYMENT,
+            r.RECEIPT_STATUS
+            from RECEIPTS r, STUDENTS s, USERS u
+            where r.STUDENT_ID = s.USER_ID
+            and s.USER_ID = u.USER_ID
+
+
+        </createView>
+    </changeSet>
 
 </databaseChangeLog>

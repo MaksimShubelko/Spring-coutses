@@ -31,9 +31,9 @@ public class Student extends User {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
-    @JoinColumn(updatable = false, name = "receipt_status")
-    private Receipt receipt;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "student")
+    @Column(updatable = false, name = "receipt")
+    private List<Receipt> receipts;
 
     @Column(name = "total_mark")
     private Double totalMark;

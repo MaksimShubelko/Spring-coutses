@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -19,22 +20,18 @@ import java.util.UUID;
 public abstract class User extends BaseEntity<UUID> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private UUID userId;
-
-    private String firstName;
-
-    private String surname;
-
-    private String lastName;
 
     private String login;
 
     private String password;
 
-    private String email;
+    @Column(name = "full_name")
+    private String fullName;
 
-    private String phoneNumber;
+    @Embedded
+    private SecureInformation secureInformation;
 
     @Convert(converter = UserStatusConverter.class)
     private UserStatus userStatus;
@@ -46,4 +43,16 @@ public abstract class User extends BaseEntity<UUID> {
     public UUID getId() {
         return userId;
     }
+
+    @PreUpdate
+    @PrePersist
+    private void initializeFullName() {
+        if (Objects.nonNull(secureInformation)) {
+            fullName = secureInformation.getSurname()
+                    + " "
+                    + secureInformation.getFirstName();
+        }
+    }
+
+
 }

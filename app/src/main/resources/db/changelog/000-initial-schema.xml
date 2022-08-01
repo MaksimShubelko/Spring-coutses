@@ -6,5 +6,565 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                    http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
+    <changeSet  id="23072022-create_table-academic_performances-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="academic_performances"/>
+            </not>
+        </preConditions>
 
+        <createTable tableName="ACADEMIC_PERFORMANCES">
+            <column autoIncrement="true" name="ACADEMIC_PERFORMANCE_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_academic_performances"
+                             uniqueConstraintName="academic_performances-academic_performance_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="STUDENT_MARK" type="DOUBLE(17)"/>
+            <column name="TIME_PASSED" type="TIMESTAMP"/>
+            <column name="STUDENT_ID" type="VARBINARY(2147483647)"/>
+            <column name="TEST_ID" type="BIGINT">
+                <constraints nullable="false" uniqueConstraintName="academic_performance-test_id-constraint"/>
+            </column>
+        </createTable>
+        <createIndex indexName="academic_performances_student_id_INDEX" tableName="ACADEMIC_PERFORMANCES">
+            <column name="STUDENT_ID"/>
+        </createIndex>
+        <createIndex indexName="academic_performances_test_id_INDEX" tableName="ACADEMIC_PERFORMANCES">
+            <column name="TEST_ID"/>
+        </createIndex>
+
+    </changeSet>
+
+    <changeSet id="23072022-create_table-answers-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="answers"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="ANSWERS">
+            <column autoIncrement="true" name="ANSWER_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_answers" uniqueConstraintName="answers-answer_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="answers-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="ANSWER" type="VARCHAR(255)"/>
+            <column name="DATE_PASSED" type="TIMESTAMP"/>
+            <column name="ACADEMIC_PERFORMANCE_ID" type="BIGINT"/>
+            <column name="QUESTION_ID" type="BIGINT">
+                <constraints nullable="false" uniqueConstraintName="answers-question_id-constraint"/>
+            </column>
+        </createTable>
+        <createIndex indexName="answers_academic_performance_id_INDEX" tableName="ANSWERS">
+            <column name="ACADEMIC_PERFORMANCE_ID"/>
+        </createIndex>
+        <createIndex indexName="answers_question_id_INDEX" tableName="ANSWERS">
+            <column name="QUESTION_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-correct_answers-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="correct_answers"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="CORRECT_ANSWERS">
+            <column autoIncrement="true" name="CORRECT_ANSWER_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_correct_answers"
+                             uniqueConstraintName="correct_answers-correct_answer_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="correct_answers-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="CORRECT_ANSWER" type="VARCHAR(255)">
+                <constraints nullable="false" uniqueConstraintName="correct_answers-correct_answer-constraint"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-courses-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="courses"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="COURSES">
+            <column autoIncrement="true" name="COURSE_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_course_id"
+                             uniqueConstraintName="courses-course_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="courses-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="COURSE_NAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-groups-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="groups"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="GROUPS">
+            <column autoIncrement="true" name="GROUP_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_group_id"
+                             uniqueConstraintName="groups-group_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="groups-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-groups_lessons-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="groups_lessons"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="GROUPS_LESSONS">
+            <column name="GROUPS_GROUP_ID" type="BIGINT">
+                <constraints nullable="false" uniqueConstraintName="groups_lessons-groups_group_id-constraint"/>
+            </column>
+            <column name="LESSONS_LESSON_ID" type="BIGINT">
+                <constraints nullable="false" uniqueConstraintName="groups_lessons-lessons_lesson_id-constraint"/>
+            </column>
+        </createTable>
+        <createIndex indexName="groups_lessons_groups_group_id_INDEX" tableName="GROUPS_LESSONS">
+            <column name="GROUPS_GROUP_ID"/>
+        </createIndex>
+        <createIndex indexName="groups_lessons_lessons_lesson_id_INDEX" tableName="GROUPS_LESSONS">
+            <column name="LESSONS_LESSON_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-groups_students-v2" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="groups_students"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="GROUPS_STUDENTS">
+            <column name="GROUP_GROUP_ID" type="BIGINT">
+                <constraints nullable="false" uniqueConstraintName="groups_students-groups_group_id-constraint"/>
+            </column>
+            <column name="STUDENTS_USER_ID" type="VARCHAR(100)">
+                <constraints nullable="false" uniqueConstraintName="groups_students-students_user_id-constraint"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint columnNames="STUDENTS_USER_ID" constraintName="UK_groups_students_students_user_id" tableName="GROUPS_STUDENTS"/>
+        <createIndex indexName="groups_students_group_group_id_INDEX" tableName="GROUPS_STUDENTS">
+            <column name="GROUP_GROUP_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-lessons-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="lessons"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="LESSONS">
+            <column autoIncrement="true" name="LESSON_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_lesson_id"
+                             uniqueConstraintName="lessons-lesson_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="lessons-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="DATE_LESSON" type="TIMESTAMP"/>
+            <column name="THEME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-lessons_teachers-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="lessons_teachers"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="LESSONS_TEACHERS">
+            <column name="LESSONS_LESSON_ID" type="BIGINT">
+                <constraints nullable="false" uniqueConstraintName="lessons_teachers-lessons_lesson_id-constraint"/>
+            </column>
+            <column name="TEACHERS_USER_ID" type="VARBINARY(2147483647)">
+                <constraints nullable="false" uniqueConstraintName="lessons_teachers-teachers_user_id-constraint"/>
+            </column>
+        </createTable>
+        <createIndex indexName="lessons_teachers_lessons_lesson_id_INDEX" tableName="LESSONS_TEACHERS">
+            <column name="LESSONS_LESSON_ID"/>
+        </createIndex>
+        <createIndex indexName="lessons_teachers_teachers_user_id_INDEX" tableName="LESSONS_TEACHERS">
+            <column name="TEACHERS_USER_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-questions-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="questions"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="QUESTIONS">
+            <column autoIncrement="true" name="QUESTION_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_question_id"
+                             uniqueConstraintName="questions-question_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="questions-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="CORRECT_ANSWER_ID" type="BIGINT"/>
+            <column name="TEST_ID" type="BIGINT">
+                <constraints nullable="false" uniqueConstraintName="questions-test_id-constraint"/>
+            </column>
+        </createTable>
+        <createIndex indexName="questions_test_id_INDEX" tableName="QUESTIONS">
+            <column name="TEST_ID"/>
+        </createIndex>
+        <createIndex indexName="questions_correct_answer_id_INDEX" tableName="QUESTIONS">
+            <column name="CORRECT_ANSWER_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-receipts-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="receipts"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="RECEIPTS">
+            <column name="RECEIPT_ID" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_receipt_id"
+                             uniqueConstraintName="receipts-receipt_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="receipts-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="COST" type="DECIMAL(19, 2)"/>
+            <column name="REQUEST_ID" type="BIGINT"/>
+            <column name="STUDENT_ID" type="VARBINARY(2147483647)"/>
+        </createTable>
+        <createIndex indexName="receipts_student_id_INDEX" tableName="RECEIPTS">
+            <column name="STUDENT_ID"/>
+        </createIndex>
+        <createIndex indexName="receipts_request_id_INDEX" tableName="RECEIPTS">
+            <column name="REQUEST_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-requests-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="requests"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="REQUESTS">
+            <column autoIncrement="true" name="REQUEST_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_request_id"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="requests-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="REQUEST_STATUS" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-students-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="students"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="STUDENTS">
+            <column name="TOTAL_MARK" type="DOUBLE(17)"/>
+            <column name="USER_ID" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_user_id"
+                             uniqueConstraintName="students-user_id-constraint"/>
+            </column>
+            <column name="GROUP_ID" type="BIGINT"/>
+            <column name="RECEIPT_STATUS" type="VARBINARY(2147483647)"/>
+        </createTable>
+        <createIndex indexName="students_receipt_status_INDEX" tableName="STUDENTS">
+            <column name="RECEIPT_STATUS"/>
+        </createIndex>
+        <createIndex indexName="students_group_id_INDEX" tableName="STUDENTS">
+            <column name="GROUP_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-students_academic_performances-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="students_academic_performances"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="STUDENTS_ACADEMIC_PERFORMANCES">
+            <column name="STUDENT_USER_ID" type="VARBINARY(2147483647)">
+                <constraints nullable="false"
+                             uniqueConstraintName="students_academic_performances-student_user_id-constraint"/>
+            </column>
+            <column name="ACADEMIC_PERFORMANCES_ACADEMIC_PERFORMANCE_ID" type="BIGINT">
+                <constraints nullable="false"
+                             uniqueConstraintName="students_academic_performances-academic_performances_academic_performance-id-constraint"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint columnNames="ACADEMIC_PERFORMANCES_ACADEMIC_PERFORMANCE_ID"
+                             constraintName="UK_students_academic_performances_academic_performances_academic_performance" tableName="STUDENTS_ACADEMIC_PERFORMANCES"/>
+        <createIndex indexName="students_academic_performances_student_user_id_INDEX" tableName="STUDENTS_ACADEMIC_PERFORMANCES">
+            <column name="STUDENT_USER_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-teachers-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="teachers"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="TEACHERS">
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="HOUR" type="INT"/>
+            <column name="SALARY_PER_HOUR" type="DOUBLE(17)"/>
+            <column name="USER_ID" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_teachers_user_id"
+                             uniqueConstraintName="teachers-user_id-constraint"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="23072022-create_table-tests-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="tests"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="TESTS">
+            <column autoIncrement="true" name="TEST_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_test_id"
+                             uniqueConstraintName="tests-test_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="tests-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="GROUP_ID" type="BIGINT"/>
+        </createTable>
+        <createIndex indexName="tests_group_id_INDEX" tableName="TESTS">
+            <column name="GROUP_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-themes-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="themes"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="THEMES">
+            <column autoIncrement="true" name="THEME_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_theme_id"
+                             uniqueConstraintName="themes-theme_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="themes-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="COURSE_ID" type="BIGINT"/>
+        </createTable>
+        <createIndex indexName="themes_course_id_INDEX" tableName="THEMES">
+            <column name="COURSE_ID"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-users-v1" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="USERS">
+            <column name="USER_ID" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_users_user_id"
+                             uniqueConstraintName="users-user_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="users-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="EMAIL" type="VARCHAR(255)"/>
+            <column name="FIRST_NAME" type="VARCHAR(255)"/>
+            <column name="LAST_NAME" type="VARCHAR(255)"/>
+            <column name="LOGIN" type="VARCHAR(255)"/>
+            <column name="PASSWORD" type="VARCHAR(255)"/>
+            <column name="PHONE_NUMBER" type="VARCHAR(255)"/>
+            <column name="SURNAME" type="VARCHAR(255)"/>
+            <column name="USER_ROLE" type="VARCHAR(255)"/>
+            <column name="USER_STATUS" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="23072022-create_table-users-v2" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="USERS">
+            <column name="USER_ID" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_users_user_id"
+                             uniqueConstraintName="users-user_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="users-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="EMAIL" type="VARCHAR(255)"/>
+            <column name="FIRST_NAME" type="VARCHAR(255)"/>
+            <column name="LAST_NAME" type="VARCHAR(255)"/>
+            <column name="FULL_NAME" type="varchar(255)"/>
+            <column name="LOGIN" type="VARCHAR(255)"/>
+            <column name="PASSWORD" type="VARCHAR(255)"/>
+            <column name="PHONE_NUMBER" type="VARCHAR(255)"/>
+            <column name="SURNAME" type="VARCHAR(255)"/>
+            <column name="USER_ROLE" type="VARCHAR(255)"/>
+            <column name="USER_STATUS" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="01082022-create_table-receipts-v4" author="shubelko">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="receipts"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="RECEIPTS">
+            <column name="RECEIPT_ID" type="VARCHAR(100)">
+                <constraints nullable="false" primaryKey="true"
+                             primaryKeyName="PK_receipt_id"
+                             uniqueConstraintName="receipts-receipt_id-constraint"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP"/>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_AT" type="TIMESTAMP">
+                <constraints nullable="false" uniqueConstraintName="receipts-last_modified_at-constraint"/>
+            </column>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="COST" type="DECIMAL(19, 2)"/>
+            <column name="REQUEST_ID" type="BIGINT"/>
+            <column name="STUDENT_ID" type="varchar(100)"/>
+            <column name="DATE_OF_PAYMENT" type="timestamp with timezone">
+                <constraints nullable="false" uniqueConstraintName="receipts-date_of_payment"/>
+            </column>
+            <column name="favor_name" type="varchar(255)"/>
+            <column name="receipt_status" type="varchar(255)">
+                <constraints nullable="false" uniqueConstraintName="receipts-receipt_status"/>
+            </column>
+        </createTable>
+        <createIndex indexName="receipts_student_id_INDEX" tableName="RECEIPTS">
+            <column name="STUDENT_ID"/>
+        </createIndex>
+        <createIndex indexName="receipts_request_id_INDEX" tableName="RECEIPTS">
+            <column name="REQUEST_ID"/>
+        </createIndex>
+    </changeSet>
+
+
+    <changeSet id="26072022-add-fk-v-1" author="shubelko">
+        <addForeignKeyConstraint baseColumnNames="STUDENT_ID" baseTableName="ACADEMIC_PERFORMANCES" constraintName="FK_academic_performances_students" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USER_ID" referencedTableName="STUDENTS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="TEST_ID" baseTableName="ACADEMIC_PERFORMANCES" constraintName="FK_academic_performances_tests" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="TEST_ID" referencedTableName="TESTS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="ACADEMIC_PERFORMANCE_ID" baseTableName="ANSWERS" constraintName="FK_answers_academic_performances" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ACADEMIC_PERFORMANCE_ID" referencedTableName="ACADEMIC_PERFORMANCES" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="QUESTION_ID" baseTableName="ANSWERS" constraintName="FK_answers_questions" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="QUESTION_ID" referencedTableName="QUESTIONS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="GROUPS_GROUP_ID" baseTableName="GROUPS_LESSONS" constraintName="FK_groups_lessons_groups" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="GROUP_ID" referencedTableName="GROUPS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="LESSONS_LESSON_ID" baseTableName="GROUPS_LESSONS" constraintName="FK_groups_lessons_lessons" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="LESSON_ID" referencedTableName="LESSONS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="GROUP_GROUP_ID" baseTableName="GROUPS_STUDENTS" constraintName="FK_groups_students_groups" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="GROUP_ID" referencedTableName="GROUPS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="STUDENTS_USER_ID" baseTableName="GROUPS_STUDENTS" constraintName="FK_groups_students_students" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USER_ID" referencedTableName="STUDENTS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="TEACHERS_USER_ID" baseTableName="LESSONS_TEACHERS" constraintName="FK_lessons_teachers_teachers" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USER_ID" referencedTableName="TEACHERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="TEST_ID" baseTableName="QUESTIONS" constraintName="FK_test_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="TEST_ID" referencedTableName="TESTS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="CORRECT_ANSWER_ID" baseTableName="QUESTIONS" constraintName="FK_questions_correct_answers" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="CORRECT_ANSWER_ID" referencedTableName="CORRECT_ANSWERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="STUDENT_ID" baseTableName="RECEIPTS" constraintName="FK_receipts_students" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USER_ID" referencedTableName="STUDENTS"/>
+        <addForeignKeyConstraint baseColumnNames="REQUEST_ID" baseTableName="RECEIPTS" constraintName="FK_receipts_requests" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="REQUEST_ID" referencedTableName="REQUESTS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="RECEIPT_STATUS" baseTableName="STUDENTS" constraintName="FK_students_receipts" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="RECEIPT_ID" referencedTableName="RECEIPTS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="GROUP_ID" baseTableName="STUDENTS" constraintName="FK_students_groups" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="GROUP_ID" referencedTableName="GROUPS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="STUDENTS" constraintName="FK_students_users" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USER_ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="ACADEMIC_PERFORMANCES_ACADEMIC_PERFORMANCE_ID" baseTableName="STUDENTS_ACADEMIC_PERFORMANCES" constraintName="FK_students_academic_performances_academic_performances" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ACADEMIC_PERFORMANCE_ID" referencedTableName="ACADEMIC_PERFORMANCES" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="STUDENT_USER_ID" baseTableName="STUDENTS_ACADEMIC_PERFORMANCES" constraintName="FK_students_academic_performances_students" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USER_ID" referencedTableName="STUDENTS"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="TEACHERS" constraintName="FK_teachers_users" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="USER_ID" referencedTableName="USERS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="GROUP_ID" baseTableName="TESTS" constraintName="FK_tests_groups" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="GROUP_ID" referencedTableName="GROUPS" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="COURSE_ID" baseTableName="THEMES" constraintName="FK_themes_courses" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="COURSE_ID" referencedTableName="COURSES" validate="true"/>
+    </changeSet>
 </databaseChangeLog>
