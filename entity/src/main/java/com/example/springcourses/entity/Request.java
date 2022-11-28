@@ -1,6 +1,6 @@
 package com.example.springcourses.entity;
 
-import com.example.springcourses.converter.ReceiptRequestConverter;
+import com.example.springcourses.converter.RequestConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,16 +16,21 @@ public class Request extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "request_id")
     private Long requestId;
 
-    @Convert(converter = ReceiptRequestConverter.class)
+    @Convert(converter = RequestConverter.class)
+    @Builder.Default
     @Column(name = "request_status")
-    private RequestStatus requestStatus;
+    private RequestStatus requestStatus = RequestStatus.NEW;
 
-    @OneToOne(mappedBy = "request")
-    @JoinColumn(name = "receipt_id")
-    private Receipt receipt;
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    @OneToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
 
     @Override
     public Long getId() {

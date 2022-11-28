@@ -10,6 +10,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 @ComponentScan(basePackages = "com.example.springcourses.repository.*")
 @RequiredArgsConstructor
 @Component("mainRunner")
@@ -39,24 +44,56 @@ public class Runner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*encrypt();*/
-        /*Course course = Course.builder()
-                .courseName("first")
-                .build();
-        Theme theme = Theme.builder()
-                .course(course)
-                .build();
-        course.setThemes(List.of(theme));
-        *//*courseRepository.save(course);*//*
-        themeRepository.save(theme);*/
+
+        for (int i = 0; i < 5; i++) {
+
+            List<Integer> a = createIntegerList();
+            List<Integer> b = createIntegerList();
+            merge(a, b);
+
+        }
 
     }
 
+
+    public static void merge(List<Integer> a, List<Integer> b) {
+        List<Integer> newArray = new ArrayList<>(a.size());
+        newArray.addAll(a);
+        int resultSize = a.size() + b.size();
+        a.clear();
+
+        int indexA = 0;
+        int indexB = 0;
+        for (int i = 0; i < resultSize; i++) {
+            if (indexA >= newArray.size()) {
+                a.add(b.get(indexB++));
+            } else if (indexB >= b.size()) {
+                a.add(newArray.get(indexA++));
+            } else if (newArray.get(indexA) <= b.get(indexB)) {
+                a.add(newArray.get(indexA++));
+            } else {
+                a.add(b.get(indexB++));
+            }
+        }
+    }
+
+    private static List<Integer> createIntegerList() {
+        List<Integer> result = new ArrayList<>();
+        Random random = new Random();
+        int minSize = 100;
+        int value = 0;
+        for (int i = 0; i < Math.max(minSize, random.nextInt(10000)); i++) {
+            value += random.nextInt(10);
+            result.add(value);
+        }
+        return result;
+    }
+
     private void encrypt() {
-        String pwd = "prod_pwd";
+        String pwd = "system_pwd";
         String encrypt = stringEncryptor.encrypt(pwd);
         System.out.println(encrypt);
-        String decrypt = stringEncryptor.decrypt("WzBZMDgGCSqGSIb3DQEFDDArBBRioHdVuLmba8DF21TCmpt2zsJ42gICEAACARAwDAYIKoZIhvcNAgsFADAdBglghkgBZQMEAQIEEPhWfI9R7JSvMSnWlVidpMGzEK6nN7gMYC6WtJb8lI5G");
+        String decrypt = stringEncryptor.decrypt("WzBZMDgGCSqGSIb3DQEFDDArBBTphCyzskmvjhssjvWZnk6/v1viRQICEAACARAwDAYIKoZIhvcNAgsFADAdBglghkgBZQMEAQIEEKRTSA/GE4PWkpCSm0o4VGpk1OywP6eEJ+GFEM0vNL1/");
         System.out.println(decrypt);
         System.out.println(dbPwd);
     }

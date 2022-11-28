@@ -17,11 +17,12 @@ import java.util.OptionalDouble;
 @SuperBuilder
 @Table(name = "students")
 @Entity
-public class Student extends User {
+public class Student extends BaseEntity<Long> {
 
-    /*@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID studentId;*/
+    @Column(name = "student_id")
+    private Long studentId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Column(name = "academic_performance")
@@ -38,13 +39,16 @@ public class Student extends User {
     @Column(name = "total_mark")
     private Double totalMark;
 
-    /*@OneToOne(cascade = CascadeType.ALL)
-    private User user;*/
+    @OneToOne(mappedBy = "student", fetch = FetchType.EAGER)
+    private Request request;
 
-    /*@Override
-    public UUID getId() {
+    @OneToOne(mappedBy = "student")
+    private UserEntity userEntity;
+
+    @Override
+    public Long getId() {
         return studentId;
-    }*/
+    }
 
     @PostLoad
     @PostUpdate

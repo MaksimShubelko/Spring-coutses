@@ -6,19 +6,19 @@ import com.example.springcourses.services.CrudService;
 
 import java.util.Collection;
 
-public abstract class AbstractMapService<T extends BaseEntity<ID>, ID> implements CrudService<T, ID>, BaseMapService<T, ID> {
+public abstract class AbstractMapService<D, ID> implements CrudService<D, ID>, BaseMapService<D, ID> {
     @Override
-    public T findById(ID id) {
+    public D findById(ID id) {
         return getResource().get(id);
     }
 
     @Override
-    public void save(T entity) {
-        getResource().put(entity.getId(), entity);
+    public void save(D entity) {
+        //getResource().put(entity., entity);
     }
 
     @Override
-    public Collection<T> findAll() {
+    public Collection<D> findAll() {
         return getResource().values();
     }
 

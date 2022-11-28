@@ -1,12 +1,24 @@
 package com.example.springcourses.repository;
 
-import com.example.springcourses.entity.User;
+import com.example.springcourses.entity.UserEntity;
+import com.example.springcourses.specification.SearchableRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<User, UUID> {
+public interface UserRepository extends JpaRepository<UserEntity, Long>, SearchableRepository<UserEntity, Long> {
 
-    Optional<User> findById(UUID id);
+    Optional<UserEntity> findById(Long userId);
+
+    @Query("SELECT u FROM UserEntity u WHERE u.teacher IS NOT NULL AND u = ?1")
+    UserEntity findByTeacher(UserEntity userEntity);
+
+    @Query("SELECT u FROM UserEntity u WHERE u.student IS NOT NULL AND u = ?1")
+    UserEntity findByStudent(UserEntity userEntity);
+
+    boolean existsByLogin(String login);
+
+    Optional<UserEntity> findByLogin(String login);
+
 }

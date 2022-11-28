@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}"
+>
+
+<body>
+
+
+<form th:object="${courseDto}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <table id="users" class="table">
+        <thead>
+        <th>
+            <input th:replace="~{fragments/inputField :: input (#{course}, 'courseName', 'text')}"/>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="themeDto, themeStat : ${courseDto.themesDto}">
+            <td>
+                <h5 th:text="${themeStat.count}"></h5>
+            </td>
+            <td>
+                <a th:href="@{/courses/__${courseDto.courseId}__/themes/__${themeDto.themeId}__/edit}"
+                   th:text="${themeDto.description}"></a></td>
+            <td>
+                <a th:href="@{/courses/__${courseDto.courseId}__/themes/__${themeDto.themeId}__/delete}"
+                   th:text="#{theme_delete}"></a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary" th:text="#{course_save}"></button>
+    <a class="btn btn-primary" th:href="@{/courses/__${courseDto.courseId}__/themes/create}"
+       th:text="#{theme_create}"></a>
+</form>
+
+</body>
+</html>

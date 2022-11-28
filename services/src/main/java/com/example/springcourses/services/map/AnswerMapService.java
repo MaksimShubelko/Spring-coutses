@@ -1,5 +1,6 @@
 package com.example.springcourses.services.map;
 
+import com.example.springcourses.dto.AnswerDto;
 import com.example.springcourses.entity.Answer;
 import com.example.springcourses.services.AnswerService;
 import com.example.springcourses.services.config.MapImplementation;
@@ -9,12 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @MapImplementation
-public class AnswerMapService extends AbstractMapService<Answer, Long> implements AnswerService {
+public class AnswerMapService extends AbstractMapService<AnswerDto, Long> implements AnswerService {
 
-    private static final Map<Long, Answer> resource = new HashMap<>();
+    private static final Map<Long, AnswerDto> resource = new HashMap<>();
 
     @Override
-    public Map<Long, Answer> getResource() {
+    public Map<Long, AnswerDto> getResource() {
         return resource;
     }
 }

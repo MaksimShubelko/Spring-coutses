@@ -17,14 +17,15 @@ public class Lesson extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lesson_id")
     private Long lessonId;
 
     @Column(name = "date_lesson")
     private LocalDateTime date;
 
-    @ManyToMany(mappedBy = "lessons")
-    @Column(name = "group_id")
-    private List<Group> groups;
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Group group;
 
     @ManyToMany
     @Column(name = "teacher_id")

@@ -16,13 +16,14 @@ public class Group extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "group_id")
     private Long groupId;
 
     @OneToMany
     @Column(name = "student_id")
     private List<Student> students;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
     @Column(name = "lesson_id")
     private List<Lesson> lessons;
 

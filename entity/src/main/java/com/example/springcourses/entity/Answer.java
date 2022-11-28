@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.List;
 
 
 @AllArgsConstructor
@@ -17,6 +16,7 @@ import java.util.List;
 public class Answer extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "answer_id")
     private Long answerId;
 
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})

@@ -21,6 +21,10 @@ public enum UserRole {
 
     private final String value;
 
+    public String value() {
+        return value;
+    }
+
     public static UserRole getByValue(String value) {
         if (Objects.isNull(value)) {
             throw new IllegalArgumentException();
@@ -29,4 +33,6 @@ public enum UserRole {
         UserRole role = MAP.get(value);
         return Objects.isNull(role) ? GUEST : role;
     }
+
+
 }

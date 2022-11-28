@@ -1,6 +1,12 @@
 package com.example.springcourses.services;
 
+import com.example.springcourses.dto.RequestDto;
 import com.example.springcourses.entity.Request;
 
-public interface RequestService extends CrudService<Request, Long> {
+import java.security.Principal;
+
+public interface RequestService extends CrudService<RequestDto, Long> {
+    default void addRequest(Long courseId, Principal principal) {
+        throw new UnsupportedOperationException();
+    }
 }

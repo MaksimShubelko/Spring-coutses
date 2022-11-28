@@ -1,11 +1,14 @@
 package com.example.springcourses.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.UUID;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,11 +17,12 @@ import java.util.UUID;
 @SuperBuilder
 @Table(name = "teachers")
 @Entity
-public class Teacher extends User {
+public class Teacher extends BaseEntity<Long> {
 
-    /*@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID teacherId;*/
+    @Column(name = "teacher_id")
+    private Long teacherId;
 
     @Column(name = "hour")
     private Integer hours;
@@ -30,14 +34,14 @@ public class Teacher extends User {
     @Column(name = "lesson_id")
     private List<Lesson> lessons;
 
-  /*  @OneToOne(cascade = CascadeType.ALL)
-    private User user;*/
-
     @Column(name = "description")
     private String description;
 
-    /*@Override
-    public UUID getId() {
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "teacher")
+    private UserEntity userEntity;
+
+    @Override
+    public Long getId() {
         return teacherId;
-    }*/
+    }
 }

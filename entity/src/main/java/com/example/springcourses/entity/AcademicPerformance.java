@@ -16,6 +16,7 @@ import java.util.List;
 public class AcademicPerformance extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "academic_performance_id")
     private Long academicPerformanceId;
 
     @ManyToOne(cascade = CascadeType.ALL)

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}"
+>
+
+<body>
+
+
+<form th:object="${themeDto}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <input th:replace="~{fragments/inputField :: input (#{theme_name}, 'description', 'text')}"/>
+
+    <button type="submit" class="btn btn-primary" th:text="#{theme_save}"></button>
+</form>
+
+</body>
+</html>

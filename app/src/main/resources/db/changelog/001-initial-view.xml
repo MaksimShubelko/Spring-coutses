@@ -6,10 +6,15 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                    http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="27072022-student_receipt_view-v2" author="shubelko">
+    <property name="rownumber" value="rownum" dbms="h2"/>
+    <property name="rownumber" value="rownum" dbms="mssql"/>
+    <property name="rownumber" value="row_number() over()" dbms="postgresql"/>
+
+    <!--<changeSet id="27072022-student_receipt_view-v4" author="shubelko">
         <sql> drop view if exists student_receipt; </sql>
         <createView viewName="student_receipt" fullDefinition="true">
             create view student_receipt (
+            id,
             receipt_id,
             total_amount,
             payer,
@@ -17,6 +22,7 @@
             date_of_payment,
             status
             ) as select
+            ${rownumber},
             r.RECEIPT_ID,
             r.COST,
             u.FULL_NAME,
@@ -26,9 +32,8 @@
             from RECEIPTS r, STUDENTS s, USERS u
             where r.STUDENT_ID = s.USER_ID
             and s.USER_ID = u.USER_ID
-
-
+            and r.RECEIPT_STATUS = 'PENDING'
         </createView>
-    </changeSet>
+    </changeSet>-->
 
 </databaseChangeLog>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+
+
+<form>
+    <h1 th:text="#{course_name}" class="text-center"></h1>
+    <table th:each="courseDto : ${selections}" id="users" class="table">
+        <thead>
+        <th class="text-center" th:text="${courseDto.courseName}"></th>
+        <th sec:authorize="hasAuthority('!TEACHER')">
+            <a th:href="@{/courses/__${courseDto.courseId}__/join}" th:text="#{course_join}"></a>
+        </th>
+        <th sec:authorize="hasAuthority('TEACHER')">
+            <a class="btn btn-primary" th:href="@{/courses/__${courseDto.courseId}__/edit}" th:text="#{course_edit}"></a>
+            <a class="btn btn-primary" th:href="@{/courses/__${courseDto.courseId}__/delete}" th:text="#{course_delete}"></a>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="themeDto, themeStat : ${courseDto.themesDto}">
+            <td th:text="${themeStat.count}"></td>
+            <td th:text="${themeDto.description}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary" th:href="@{/courses/create}" th:text="#{course_create}"></a>
+</form>
+
+</body>
+</html>

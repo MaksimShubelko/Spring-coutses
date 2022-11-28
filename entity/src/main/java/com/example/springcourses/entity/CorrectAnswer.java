@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class CorrectAnswer extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "correct_answer_id")
     private Long correctAnswerId;
 
     @OneToOne(mappedBy = "correctAnswer")

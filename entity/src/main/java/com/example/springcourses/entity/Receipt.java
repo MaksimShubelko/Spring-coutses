@@ -14,12 +14,12 @@ import java.util.UUID;
 @Builder
 @Table(name = "receipts")
 @Entity
-public class Receipt extends BaseEntity<UUID> {
+public class Receipt extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue
-    @Column(nullable = false)
-    private UUID receiptId;
+    @Column(nullable = false, name = "receipt_id")
+    private Long receiptId;
 
     @Column(name = "favor_name")
     private String nameOfFavor;
@@ -27,8 +27,10 @@ public class Receipt extends BaseEntity<UUID> {
     @Column(name = "date_of_payment", nullable = false)
     private OffsetDateTime dateOfPayment;
 
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     @Column(name = "receipt_status", nullable = false)
-    private ReceiptStatus receiptStatus;
+    private ReceiptStatus receiptStatus = ReceiptStatus.PENDING;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
@@ -42,7 +44,7 @@ public class Receipt extends BaseEntity<UUID> {
     private BigDecimal cost;
 
     @Override
-    public UUID getId() {
+    public Long getId() {
         return receiptId;
     }
 }

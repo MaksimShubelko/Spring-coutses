@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}">
+
+<body>
+
+<table id="users" class="table table-striped">
+    <thead>
+    <tr>
+        <th th:text="#{user_full_name}"></th>
+        <th th:text="#{user_first_name}"></th>
+        <th th:text="#{user_surname}"></th>
+        <th th:text="#{user_last_name}"></th>
+        <th th:text="#{user_phone_number}"></th>
+        <th th:text="#{user_email}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="userEntity : ${selections}">
+        <td>
+            <a th:href="@{/users/__${userEntity.userId}__}" th:text="${userEntity.fullName}"></a>
+        </td>
+        <td th:text="${userEntity.firstName}" style="width: 150px"></td>
+        <td th:text="${userEntity.surname}" style="width: 150px"></td>
+        <td th:text="${userEntity.lastName}" style="width: 150px"></td>
+        <td th:text="${userEntity.phoneNumber}" style="width: 150px"></td>
+        <td th:text="${userEntity.email}" style="width: 150px"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,8 +1,10 @@
 package com.example.springcourses.services;
 
-import com.example.springcourses.entity.Teacher;
+import com.example.springcourses.dto.TeacherDto;
 
-import java.util.UUID;
+public interface TeacherService extends CrudService<TeacherDto, Long> {
 
-public interface TeacherService extends CrudService<Teacher, UUID> {
+    default TeacherDto findByUserId(Long userId) {
+        throw new UnsupportedOperationException();
+    }
 }

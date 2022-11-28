@@ -16,7 +16,7 @@ public class Test extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "test_id")
     private Long testId;
 
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)

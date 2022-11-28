@@ -2,12 +2,12 @@ package com.example.springcourses.services;
 
 import java.util.Collection;
 
-public interface CrudService<T, ID> {
-    T findById(ID id);
+public interface CrudService<D, ID> {
+    D findById(ID id);
 
-    void save(T entity);
+    void save(D entity);
 
-    Collection<T> findAll();
+    Collection<D> findAll();
 
     void delete(ID id);
 }

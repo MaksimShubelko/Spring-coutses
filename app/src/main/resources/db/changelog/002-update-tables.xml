@@ -28,17 +28,18 @@
         </addColumn>
     </changeSet>
 
-    <changeSet id="01082002-update_receipts-add_receipt_status-v1" author="shubelko">
+    <changeSet id="01082002-update_receipts-add_receipt_status-v2" author="shubelko">
         <preConditions onFail="MARK_RAN">
             <not>
                 <columnExists tableName="receipts" columnName="receipt_status"/>
             </not>
         </preConditions>
         <addColumn tableName="receipts">
-            <column name="receipt_status" type="varchar(255)">
+            <column name="RECEIPT_STATUS" type="varchar(255)">
                 <constraints nullable="false" uniqueConstraintName="receipts-receipts-receipt_status"/>
             </column>
         </addColumn>
+        <addDefaultValue tableName="receipts" columnName="receipt_status" defaultValue="PENDING"/>
     </changeSet>
 
     <changeSet id="01082002-update_receipts-add_favor_name-v1" author="shubelko">
@@ -56,14 +57,14 @@
         <preConditions onFail="MARK_RAN">
             <columnExists tableName="GROUPS_STUDENTS" columnName="STUDENTS_USER_ID"/>
         </preConditions>
-        <modifyDataType tableName="GROUPS_STUDENTS" columnName="STUDENTS_USER_ID" newDataType="varchar(100)"/>
+        <modifyDataType tableName="GROUPS_STUDENTS" columnName="STUDENTS_USER_ID" newDataType="BIGINT"/>
     </changeSet>
 
     <changeSet id="01082002-update_receipts-update_student_id-v2" author="shubelko">
         <preConditions onFail="MARK_RAN">
             <columnExists tableName="RECEIPTS" columnName="STUDENT_ID"/>
         </preConditions>
-        <modifyDataType tableName="RECEIPTS" columnName="STUDENT_ID" newDataType="varchar(100)"/>
+        <modifyDataType tableName="RECEIPTS" columnName="STUDENT_ID" newDataType="BIGINT"/>
     </changeSet>
 
 </databaseChangeLog>

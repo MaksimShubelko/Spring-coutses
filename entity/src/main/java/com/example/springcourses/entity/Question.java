@@ -15,6 +15,7 @@ public class Question extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "question_id")
     private Long questionId;
 
     @OneToOne(mappedBy = "question")
