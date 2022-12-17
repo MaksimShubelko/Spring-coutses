@@ -1,6 +1,7 @@
 package com.example.springcourses.config;
 
 import com.example.springcourses.entity.UserRole;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -19,12 +20,12 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityBeansConfig {
 
-    @Bean
+    /*@Bean
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        roleHierarchy.setHierarchy(UserRole.TEACHER.name() +
+        *//*roleHierarchy.setHierarchy(UserRole.TEACHER.name() +
                 " > " + UserRole.STUDENT.name() +
-                " > " + UserRole.GUEST.name());
+                " > " + UserRole.GUEST.name());*//*
         return roleHierarchy;
     }
 
@@ -37,6 +38,11 @@ public class SecurityBeansConfig {
     SimpleAuthorityMapper simpleAuthorityMapper() {
         return new SimpleAuthorityMapper();
     }
+*/
+
+
+
+
 
     @Bean
     public AuthenticationEventPublisher authenticationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {

@@ -18,8 +18,6 @@ public class TeacherDto {
 
     private Integer hours;
     private Double salaryPerHour;
-    @Valid
-    private List<LessonDto> lessonsDto;
     private String description;
 
 }

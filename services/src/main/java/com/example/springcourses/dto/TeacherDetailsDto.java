@@ -10,6 +10,5 @@ public class TeacherDetailsDto {
 
     private Integer hours;
     private Double salaryPerHour;
-    private List<LessonDto> lessonDtos;
     private String description;
 }

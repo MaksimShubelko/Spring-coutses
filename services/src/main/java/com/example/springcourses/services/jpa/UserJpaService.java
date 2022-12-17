@@ -1,12 +1,10 @@
 package com.example.springcourses.services.jpa;
 
-import com.example.springcourses.dto.StudentDto;
-import com.example.springcourses.dto.TeacherDto;
-import com.example.springcourses.dto.UserDetailsDto;
-import com.example.springcourses.dto.UserDto;
+import com.example.springcourses.dto.*;
 import com.example.springcourses.entity.LoginSuccess;
 import com.example.springcourses.entity.UserEntity;
 import com.example.springcourses.entity.UserStatus;
+import com.example.springcourses.mapper.GroupMapper;
 import com.example.springcourses.mapper.StudentMapper;
 import com.example.springcourses.mapper.TeacherMapper;
 import com.example.springcourses.mapper.UserMapper;
@@ -37,9 +35,8 @@ public class UserJpaService extends AbstractJpaService<UserDto, UserEntity, Long
 
     private final UserRepository repository;
     private final UserMapper mapper;
-    private final StudentRepository studentRepository;
-    private final StudentMapper studentMapper;
-    private final LoginSuccessRepository loginSuccessRepository;
+    private final GroupMapper groupMapper;
+    // private final LoginSuccessRepository loginSuccessRepository;
 
 
     @Override
@@ -78,6 +75,20 @@ public class UserJpaService extends AbstractJpaService<UserDto, UserEntity, Long
     }
 
     @Override
+    public void saveAll(List<UserDto> userDtos) {
+        repository.saveAll(userDtos.stream()
+                .map(this::mapToEntity).collect(Collectors.toList()));
+    }
+
+    @Override
+    public List<UserDto> findUsersInGroup(GroupDto groupDto) {
+        return repository.findByGroup(groupMapper.map(groupDto))
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void create(UserDto userDto) {
         repository.save(mapper.mapDtoToEntity(userDto));
     }
@@ -90,13 +101,6 @@ public class UserJpaService extends AbstractJpaService<UserDto, UserEntity, Long
             userEntity = mapper.mapDtoToEntity(userDto);
             repository.save(userEntity);
         }
-    }
-
-    @Override
-    public void saveAndLink(UserDto userDto) {
-        TeacherDto teacherDto = userDto.getTeacherDto();
-        save(userDto);
-
     }
 
     @Override
@@ -137,24 +141,6 @@ public class UserJpaService extends AbstractJpaService<UserDto, UserEntity, Long
     public void addStudent(UserDto userDto) {
         userDto.setStudentDto(StudentDto.builder().build());
         this.save(userDto);
-    }
-
-    @Override
-    public void blockUnusedUsers() {
-        repository.findAll()
-                .forEach(
-                user -> {
-                    Optional<LoginSuccess> loginSuccess = loginSuccessRepository
-                            .findTopByUserOrderByLastModifiedDateDesc(user);
-                    if (loginSuccess.isPresent()) {
-                        OffsetDateTime lastLogin = loginSuccess.get().getLastModifiedDate();
-                        if (lastLogin.isBefore(OffsetDateTime.now().minusDays(365))) {
-                            user.setUserStatus(UserStatus.BLOCKED);
-                            repository.save(user);
-                        }
-                    }
-                }
-        );
     }
 
     @Override

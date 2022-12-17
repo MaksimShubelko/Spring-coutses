@@ -2,6 +2,7 @@ package com.example.springcourses.entity;
 
 import com.example.springcourses.converter.RequestConverter;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @Table(name = "requests")
 @Entity
 public class Request extends BaseEntity<Long> {
@@ -24,11 +25,11 @@ public class Request extends BaseEntity<Long> {
     @Column(name = "request_status")
     private RequestStatus requestStatus = RequestStatus.NEW;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id")
     private Student student;
 

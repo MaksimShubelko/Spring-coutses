@@ -10,6 +10,7 @@
     <input th:replace="~{fragments/inputField :: input (#{course}, 'courseName', 'text')}"/>
 
     <button type="submit" class="btn btn-primary" th:text="#{course_create}"></button>
+    <button th:href="@{/courses/find}" class="btn btn-primary" th:text="#{requests_back}"></button>
 </form>
 
 </body>

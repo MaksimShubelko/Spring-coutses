@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}"
+>
+
+<body>
+
+
+<form th:object="${groupDto}" method="post" th:action="@{/courses/__${courseDto.courseId}__/groups/__${groupDto.groupId}__/edit}" class="form-horizontal needs-validation"
+      novalidate id="search-owner-form">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <input name="description" th:replace="~{fragments/inputField :: input (#{group}, 'description', 'text')}"/>
+<!--
+<button type="button" class="btn btn-primary" th:href="@{/courses/__${groupDto.courseDto.courseId}__/groups/__${groupId}__/requests/find}"></button>
+-->
+    <button type="submit" class="btn btn-primary" th:text="#{group_save}"></button>
+</form>
+
+</body>
+</html>

@@ -1,18 +1,10 @@
 package com.example.springcourses.services.jpa;
 
-import com.example.springcourses.dto.CourseDto;
-import com.example.springcourses.dto.RequestDto;
-import com.example.springcourses.dto.StudentDto;
-import com.example.springcourses.dto.UserDto;
-import com.example.springcourses.entity.Course;
+import com.example.springcourses.dto.*;
 import com.example.springcourses.entity.Request;
-import com.example.springcourses.mapper.CourseMapper;
-import com.example.springcourses.mapper.RequestMapper;
-import com.example.springcourses.mapper.StudentMapper;
-import com.example.springcourses.repository.CourseRepository;
-import com.example.springcourses.repository.RequestRepository;
-import com.example.springcourses.repository.StudentRepository;
-import com.example.springcourses.repository.UserRepository;
+import com.example.springcourses.entity.RequestStatus;
+import com.example.springcourses.mapper.*;
+import com.example.springcourses.repository.*;
 import com.example.springcourses.services.RequestService;
 import com.example.springcourses.services.config.JpaImplementation;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.security.Principal;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -33,7 +25,6 @@ public class RequestJpaService extends AbstractJpaService<RequestDto, Request, L
 
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
-    private final UserRepository userRepository;
     private final RequestMapper mapper;
 
     @Override
@@ -61,14 +52,38 @@ public class RequestJpaService extends AbstractJpaService<RequestDto, Request, L
 
     @Override
     public void addRequest(Long courseId, Principal principal) {
-        // TODO
         String login = principal.getName();
-        StudentDto studentDto = studentMapper.mapToDto(studentRepository.findStudentByLogin(login).orElseThrow());
-        CourseDto courseDto = courseMapper.mapToDto(courseRepository.findById(courseId).orElseThrow());
-        RequestDto dto = mapper.mapToDto(repository.findByStudent(studentMapper.map(studentDto)).orElse(Request.builder().student(studentMapper.map(studentDto)).build()));
+        StudentDto studentDto = studentMapper
+                .mapToDto(studentRepository.findStudentByLogin(login).orElseThrow());
+        CourseDto courseDto = courseMapper
+                .mapToDto(courseRepository.findById(courseId).orElseThrow());
+        RequestDto dto = mapper.mapToDto(repository.findByStudent(studentMapper.map(studentDto))
+                        .orElse(Request.builder().student(studentMapper
+                                        .map(studentDto)).build()));
+
         dto.setCourseDto(courseDto);
         dto.setStudentDto(studentDto);
         repository.save(mapToEntity(dto));
+
+    }
+
+    @Override
+    public List<RequestDto> findNewByCourse(CourseDto courseDto) {
+        return repository
+                .findAllByCourseWithRequestStatusNew(courseMapper.map(courseDto))
+                        .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addStudentToGroup(GroupDto groupDto, Long requestId) {
+        RequestDto requestDto = mapToDto(repository.findById(requestId).orElseThrow());
+        StudentDto studentDto = requestDto.getStudentDto();
+        studentDto.setGroupDto(groupDto);
+        studentRepository.save(studentMapper.map(studentDto));
+        requestDto.setRequestStatus(RequestStatus.APPROVING);
+        repository.save(mapper.map(requestDto));
 
     }
 

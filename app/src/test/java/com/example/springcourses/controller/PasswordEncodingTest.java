@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PasswordEncodingTest {
 
-    public static final String PASSWORD = "password";
+    public static final String PASSWORD = "1111";
 
     @Test
     void testBCryptEnc() {
         PasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(5);
 
-        //System.out.println("bcrypt= " + bCryptPasswordEncoder.encode(PASSWORD));
+        System.out.println("bcrypt= " + bCryptPasswordEncoder.encode(PASSWORD));
         //System.out.println("bcrypt= " + bCryptPasswordEncoder.encode(PASSWORD));
 
         System.out.println("bcrypt= " + bCryptPasswordEncoder.encode("1111"));

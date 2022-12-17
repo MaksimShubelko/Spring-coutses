@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public enum RequestStatus {
     NEW("New"),
     UNDER_CONSIDERATION("Under consideration"),
-    REVIEWED("Reviewed");
+    APPROVING("Approving");
 
     private final String status;
 

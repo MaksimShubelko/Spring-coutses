@@ -1,5 +1,6 @@
 package com.example.springcourses.services;
 
+import com.example.springcourses.dto.GroupDto;
 import com.example.springcourses.dto.UserDetailsDto;
 import com.example.springcourses.dto.UserDto;
 import com.example.springcourses.specification.filter.UserFilter;
@@ -30,6 +31,10 @@ public interface UserService extends CrudService<UserDto, Long> {
         throw new UnsupportedOperationException();
     }
 
+    default void saveAll(List<UserDto> userDtos) {
+        throw new UnsupportedOperationException();
+    }
+
     default UserDetailsDto findUserDetailsById(Long id) {
         throw new UnsupportedOperationException();
     }
@@ -42,19 +47,11 @@ public interface UserService extends CrudService<UserDto, Long> {
         throw new UnsupportedOperationException();
     }
 
-    default void saveAndLink(UserDto userDto) {
+    default List<UserDto> findUsersInGroup(GroupDto groupDto) {
         throw new UnsupportedOperationException();
     }
 
     default boolean existsByLogin(String login) {
-        throw new UnsupportedOperationException();
-    }
-
-    default void registerNewAccount(UserDto userDto) {
-        throw new UnsupportedOperationException();
-    }
-
-    default void blockUnusedUsers() {
         throw new UnsupportedOperationException();
     }
 

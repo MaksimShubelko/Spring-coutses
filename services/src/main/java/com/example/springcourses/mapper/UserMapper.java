@@ -14,6 +14,8 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_DEFAULT)
 public interface UserMapper {
 
+    @Mapping(source = "student", target = "studentDto")
+    @Mapping(source = "teacher", target = "teacherDto")
     @Mapping(target = "lastModifiedAt", source = "lastModifiedAt", defaultExpression = "java(java.time.OffsetDateTime.now())")
     UserDto mapToDto(UserEntity userEntity);
 

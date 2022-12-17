@@ -6,6 +6,7 @@ import com.example.springcourses.dto.UserDto;
 import com.example.springcourses.services.StudentService;
 import com.example.springcourses.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ public class StudentController {
     private final StudentService studentService;
     private final UserService userService;
 
+    @PreAuthorize("hasAuthority('TEACHER')")
     @GetMapping("/students")
     public String getStudents() {
         return "students/index";
@@ -29,7 +31,7 @@ public class StudentController {
 
     @GetMapping("/new/{id}")
     public String initCreationForm(@PathVariable Long id, Model model) {
-        model.addAttribute("teacher", TeacherDto.builder().build());
+        model.addAttribute("student", StudentDto.builder().build());
         return "createOrUpdate";
     }
 

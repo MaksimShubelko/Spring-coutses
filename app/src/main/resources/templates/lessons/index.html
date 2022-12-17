@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <body>
 
-    <h1 th:text="'Lessons Index Page'">Index page</h1>
+
+<form method="post">
+    <table id="users" class="table table-striped">
+        <thead>
+        <th th:text="#{lessons}"></th>
+        </thead>
+        <tbody>
+            <tr th:each="lesson,lessonStat : ${groupDto.getLessonsDto()}">
+                <td>
+                    <a th:text="${lessonStat.count + ' ' + themes.get(lessonStat.index).description}" th:href="@{/courses/__${courseDto.courseId}__/groups/__${groupDto.groupId}__/lessons/__${lesson.lessonId}__/students}"></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
 
 </body>
 </html>

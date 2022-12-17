@@ -11,6 +11,8 @@ import java.util.UUID;
 
 @MapImplementation
 public class StudentMapService extends AbstractMapService<StudentDto, Long> implements StudentService {
+
+
     private static final Map<Long, StudentDto> resource = new HashMap<>();
 
     @Override

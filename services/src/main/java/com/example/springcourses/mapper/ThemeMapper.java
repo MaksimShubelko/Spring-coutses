@@ -5,7 +5,7 @@ import com.example.springcourses.entity.Theme;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper()
 public interface ThemeMapper {
 
     @Mapping(source = "courseDto", target = "course")

@@ -37,9 +37,8 @@ public class ThemeController {
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @PostMapping("/{themeId}/edit")
-    public String processUpdating(@PathVariable(name = "themeId") Long themeId, @Valid ThemeDto themeDto, @Valid CourseDto courseDto, BindingResult bindingResult) {
+    public String processUpdating(@PathVariable(name = "themeId") Long themeId, @Valid ThemeDto themeDto, BindingResult bindingResult, CourseDto courseDto) {
         if (bindingResult.hasErrors()) {
-            bindingResult.rejectValue("courseName", "Bad credentials");
             return "themes/edition";
         } else {
             themeDto.setThemeId(themeId);
@@ -52,7 +51,7 @@ public class ThemeController {
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @GetMapping("/create")
-    public String initCreating(Model model, CourseDto courseDto) {
+    public String initCreating(Model model) {
         ThemeDto themeDto = ThemeDto.builder().build();
         model.addAttribute("themeDto", themeDto);
         return "themes/creation";
@@ -60,7 +59,7 @@ public class ThemeController {
 
     @PreAuthorize("hasAuthority('TEACHER')")
     @PostMapping("/create")
-    public String processCreating(CourseDto courseDto, ThemeDto themeDto, BindingResult bindingResult) {
+    public String processCreating(CourseDto courseDto, @Valid ThemeDto themeDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "themes/creation";
         } else {

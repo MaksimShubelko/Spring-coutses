@@ -56,10 +56,6 @@ public class UserEntity extends BaseEntity<Long> {
     @Column(name = "user_role")
     private UserRole userRole;
 
-    @ManyToMany
-    @Column(name = "permission")
-    private List<Permission> permissions;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;

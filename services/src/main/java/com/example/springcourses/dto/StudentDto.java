@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Builder
@@ -16,14 +17,17 @@ public class StudentDto {
 
     private Long studentId;
 
-    private List<AcademicPerformanceDto> academicPerformancesDtos;
 
     private GroupDto groupDto;
 
-    private List<ReceiptDto> receiptsDtos;
 
     private Double totalMark;
 
-    private List<RequestDto> requests;
+    private String createdBy;
+
+
+    private OffsetDateTime lastModifiedAt;
+
+    private RequestDto request;
 
 }

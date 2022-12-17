@@ -15,12 +15,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-@ComponentScan(basePackages = "com.example.springcourses.repository.*")
+/*@ComponentScan(basePackages = "com.example.springcourses.repository.*")
 @RequiredArgsConstructor
-@Component("mainRunner")
+@Component("mainRunner")*//*
+
 public class Runner implements CommandLineRunner {
 
-    @Value("${spring.datasource.password:undefined}")
+    */
+/*@Value("${spring.datasource.password:undefined}")
     private String dbPwd;
 
     @Qualifier("customEncryptor")
@@ -96,5 +98,7 @@ public class Runner implements CommandLineRunner {
         String decrypt = stringEncryptor.decrypt("WzBZMDgGCSqGSIb3DQEFDDArBBTphCyzskmvjhssjvWZnk6/v1viRQICEAACARAwDAYIKoZIhvcNAgsFADAdBglghkgBZQMEAQIEEKRTSA/GE4PWkpCSm0o4VGpk1OywP6eEJ+GFEM0vNL1/");
         System.out.println(decrypt);
         System.out.println(dbPwd);
-    }
+    }*//*
+
 }
+*/

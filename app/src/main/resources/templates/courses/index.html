@@ -7,25 +7,38 @@
 
 <form>
     <h1 th:text="#{course_name}" class="text-center"></h1>
-    <table th:each="courseDto : ${selections}" id="users" class="table">
-        <thead>
-        <th class="text-center" th:text="${courseDto.courseName}"></th>
-        <th sec:authorize="hasAuthority('!TEACHER')">
-            <a th:href="@{/courses/__${courseDto.courseId}__/join}" th:text="#{course_join}"></a>
-        </th>
-        <th sec:authorize="hasAuthority('TEACHER')">
-            <a class="btn btn-primary" th:href="@{/courses/__${courseDto.courseId}__/edit}" th:text="#{course_edit}"></a>
-            <a class="btn btn-primary" th:href="@{/courses/__${courseDto.courseId}__/delete}" th:text="#{course_delete}"></a>
-        </th>
-        </thead>
-        <tbody>
-        <tr th:each="themeDto, themeStat : ${courseDto.themesDto}">
-            <td th:text="${themeStat.count}"></td>
-            <td th:text="${themeDto.description}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <a class="btn btn-primary" th:href="@{/courses/create}" th:text="#{course_create}"></a>
+    <div sec:authorize="hasAuthority('STUDENT')" th:if="${studentDto?.getGroupDto() != null}">
+        <p class="text-center" th:text="#{course_processing}"></p>
+    </div>
+        <table th:each="courseDto : ${selections}" id="users" class="table table-striped">
+            <td sec:authorize="hasAuthority('STUDENT')" th:if="${studentDto?.getGroupDto() == null}">
+                <a th:href="@{/courses/__${courseDto.courseId}__/join}" th:text="#{course_join}"></a>
+            </td>
+            <div sec:authorize="hasAuthority('TEACHER')">
+                <a class="btn btn-primary" th:href="@{/courses/__${courseDto.courseId}__/edit}"
+                   th:text="#{course_edit}"></a>
+                <a class="btn btn-primary" th:href="@{/courses/__${courseDto.courseId}__/delete}"
+                   th:text="#{course_delete}"></a>
+                <a class="btn btn-success" th:href="@{/courses/__${courseDto.courseId}__/groups/find}"
+                   th:text="#{groups_name}"></a>
+            </div>
+            <thead>
+            <th class="text-center" th:text="${courseDto.courseName}"></th>
+            </thead>
+
+            <tbody>
+            <div th:each="themeDto, themeStat : ${courseDto.themesDto}">
+                <tr>
+                    <td th:text="${themeStat.count + ' ' + themeDto.description}"></td>
+                </tr>
+            </div>
+            </tr>
+            </tbody>
+        </table>
+
+
+    <a sec:authorize="hasAuthority('TEACHER')" class="btn btn-primary" th:href="@{/courses/create}"
+       th:text="#{course_create}"></a>
 </form>
 
 </body>

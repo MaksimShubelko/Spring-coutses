@@ -24,12 +24,12 @@ public class UserDto {
     @Pattern(regexp = "^[a-zA-Z0-9]{3,10}$", message = "Login may contain a-z, A-Z, 0-9, and has from 3 to 10 chars")
     private String login;
 
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message =
-            "a digit must occur at least once " +
-            "a lower case letter must occur at least once " +
-            "an upper case letter must occur at least once " +
-            "a special character must occur at least once " +
-            "no whitespace allowed in the entire string " +
+    @Pattern(regexp = "^[a-zA-Z0-9]{8,30}$", message =
+            "A digit must occur at least once, " +
+            "a lower case letter must occur at least once, " +
+            "an upper case letter must occur at least once, " +
+            "a special character must occur at least once, " +
+            "no whitespace allowed in the entire string, " +
             "anything, at least eight places though ")
     private String password;
 
@@ -38,15 +38,16 @@ public class UserDto {
 
     private String fullName;
 
-    @NotBlank(message = "This field shouldn't be empty")
+    @Pattern(regexp = "^.{3,20}$", message = "This field should has from 3 to 20 chars")
     private String firstName;
 
-    @NotBlank(message = "This field shouldn't be empty")
+    @Pattern(regexp = "^.{3,20}$", message = "This field should has from 3 to 20 chars")
     private String surname;
 
-    @NotBlank(message = "This field shouldn't be empty")
+    @Pattern(regexp = "^.{3,20}$", message = "This field should has from 3 to 20 chars")
     private String lastName;
 
+    @Pattern(regexp = "^.{5,20}$", message = "This field should has from 5 to 20 chars")
     @Email(message = "Should has e-mail format")
     private String email;
 

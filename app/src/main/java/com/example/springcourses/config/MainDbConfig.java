@@ -1,6 +1,7 @@
 package com.example.springcourses.config;
 
 import org.hibernate.cfg.AvailableSettings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseDataSource;
@@ -22,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Optional;
@@ -41,10 +43,12 @@ public class MainDbConfig {
     @LiquibaseDataSource
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
+
         return DataSourceBuilder.create()
                 .type(ManagedHikariDataSource.class)
                 .build();
     }
+
 
     @Primary
     @Bean

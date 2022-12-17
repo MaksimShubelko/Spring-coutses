@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">\
+
+<body>
+<form>
+<table class="table table-striped" th:each="userDto : ${userDtos}">
+    <tr>
+        <th th:text="#{user_full_name}"></th>
+        <td th:text="*{userDto.fullName}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{user_email}"></th>
+        <td th:text="*{userDto.email}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{user_phone_number}"></th>
+        <td th:text="*{userDto.phoneNumber}"></td>
+    </tr>
+    <tr>
+        <th th:text="#{student_group}"></th>
+        <td th:text="*{userDto?.getStudentDto().getGroupDto().getDescription()}"></td>
+    </tr>
+
+
+
+</table>
+
+<a class="btn btn-primary" th:text="#{requests_back}" th:href="@{/courses/__${courseDto.courseId}__/groups/find}"></a>
+</form>
+</body>

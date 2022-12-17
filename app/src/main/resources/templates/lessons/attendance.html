@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+
+
+<form method="post">
+    <table id="users" class="table table-striped">
+        <thead>
+        <th th:text="#{lessons}"></th>
+        </thead>
+        <tbody>
+        <tr th:each="lesson,lessonStat : ${groupDto.getLessonsDto()}">
+            <td>
+                <input type="checkbox" th:value="${attendanceDto.isAttendance}"></input>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" class="btn btn-success" th:text="#{course_save}">
+</form>
+
+</body>
+</html>

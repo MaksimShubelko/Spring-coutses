@@ -8,7 +8,6 @@
 
     <include file="db/changelog/000-initial-schema.xml"/>
     <include file="db/changelog/001-initial-view.xml"/>
-    <include file="db/changelog/002-update-tables.xml"/>
 
     <include file="db/changelog/999-init-data.xml"/>
 

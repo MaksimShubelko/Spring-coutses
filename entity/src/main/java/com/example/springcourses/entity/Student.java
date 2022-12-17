@@ -5,9 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.OptionalDouble;
 
 @AllArgsConstructor
@@ -24,22 +27,14 @@ public class Student extends BaseEntity<Long> {
     @Column(name = "student_id")
     private Long studentId;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(name = "academic_performance")
-    private List<AcademicPerformance> academicPerformances;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
-
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "student")
-    @Column(updatable = false, name = "receipt")
-    private List<Receipt> receipts;
 
     @Column(name = "total_mark")
     private Double totalMark;
 
-    @OneToOne(mappedBy = "student", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
     private Request request;
 
     @OneToOne(mappedBy = "student")
@@ -50,13 +45,4 @@ public class Student extends BaseEntity<Long> {
         return studentId;
     }
 
-    @PostLoad
-    @PostUpdate
-    private void calculateMiddleMark() {
-        OptionalDouble average = academicPerformances.stream()
-                .mapToDouble(AcademicPerformance::getMark)
-                .average();
-
-        totalMark = average.orElse(0);
-    }
 }

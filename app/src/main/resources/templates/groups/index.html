@@ -1,12 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <body>
 
-    <h1 th:text="'Groups Index Page'">Index page</h1>
+
+<form>
+    <h1 th:text="#{groups_name}" class="text-center"></h1>
+
+    <table id="users" class="table table-striped">
+        <thead>
+        <th class="text-center" th:text="${courseDto.courseName}"></th>
+        </thead>
+        <tbody>
+        <tr th:each="groupDto, groupStat : ${selections}">
+            <td th:text="${groupStat.count + ' ' + groupDto.description}"></td>
+            <td>
+                <a th:href="@{/courses/__${courseDto.courseId}__/groups/__${groupDto.groupId}__/edit}" th:text="#{groups_edit}"></a>
+            </td>
+            <td>
+                <a th:href="@{/courses/__${courseDto.courseId}__/groups/__${groupDto.groupId}__/delete}" th:text="#{groups_delete}"></a>
+            </td>
+            <td>
+                <a th:href="@{/courses/__${courseDto.courseId}__/groups/__${groupDto.groupId}__/requests/find}" th:text="#{groups_requests}"></a>
+            </td>
+            <td>
+                <a th:href="@{/courses/__${courseDto.courseId}__/groups/__${groupDto.groupId}__/students/find}" th:text="#{groups_students}"></a>
+            </td>
+
+        </tr>
+        </tbody>
+
+    </table>
+    <a class="btn btn-primary" th:href="@{/courses/__${courseDto.courseId}__/groups/create}"
+       th:text="#{groups_create}"></a>
+</form>
 
 </body>
 </html>

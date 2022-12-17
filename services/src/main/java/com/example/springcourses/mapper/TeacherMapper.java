@@ -5,7 +5,7 @@ import com.example.springcourses.entity.Teacher;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 
-@Mapper(uses = {LessonMapper.class})
+@Mapper
 public interface TeacherMapper {
 
     Teacher map(TeacherDto dto);

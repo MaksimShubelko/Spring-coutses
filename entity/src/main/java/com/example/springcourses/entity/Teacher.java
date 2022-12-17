@@ -30,10 +30,6 @@ public class Teacher extends BaseEntity<Long> {
     @Column(name = "salary_per_hour")
     private Double salaryPerHour;
 
-    @ManyToMany(mappedBy = "teachers")
-    @Column(name = "lesson_id")
-    private List<Lesson> lessons;
-
     @Column(name = "description")
     private String description;
 

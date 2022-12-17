@@ -5,10 +5,10 @@
 <body>
 
 
-<form th:object="${themeDto}" method="post">
+<form th:object="${themeDto}" method="post" th:action="@{/courses/__${courseDto.courseId}__/themes/__${themeDto.themeId}__/edit}" class="form-horizontal needs-validation"
+      novalidate id="search-owner-form">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <input th:replace="~{fragments/inputField :: input (#{theme_name}, 'description', 'text')}"/>
-
+    <input name="description" th:replace="~{fragments/inputField :: input (#{theme_name}, 'description', 'text')}"/>
     <button type="submit" class="btn btn-primary" th:text="#{theme_save}"></button>
 </form>
 

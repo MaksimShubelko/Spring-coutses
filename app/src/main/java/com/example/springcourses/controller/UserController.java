@@ -48,13 +48,11 @@ public class UserController {
     public String showUser(@PathVariable(name = "id") Long userId, Model model) {
         UserDetailsDto userDetailsDto = userService.findUserDetailsById(userId);
         model.addAttribute("userDto", userDetailsDto);
-        if (userDetailsDto.getUserRole().equals(UserRole.STUDENT)
-                && !userService.isStudentExists(userDetailsDto)) {
+        if (!userService.isStudentExists(userDetailsDto) &&  userDetailsDto.getUserRole().equals(UserRole.STUDENT)) {
             model.addAttribute("student", StudentDto.builder().build());
             return "redirect:/users/" + userDetailsDto.getUserId() + "/students/new/";
         } else {
-            if (userDetailsDto.getUserRole().equals(UserRole.TEACHER)
-                    && !userService.isTeacherExists(userDetailsDto)) {
+            if (!userService.isTeacherExists(userDetailsDto) && userDetailsDto.getUserRole().equals(UserRole.TEACHER)) {
                 model.addAttribute("teacher", TeacherDto.builder().build());
                 return "redirect:/users/" + userDetailsDto.getUserId() + "/teachers/new/";
             }
@@ -143,7 +141,6 @@ public class UserController {
             return "users/signIn";
         }
         userDto.setPassword(CustomPasswordEncoderFactories.createDelegatingPasswordEncoder().encode(userDto.getPassword()));
-        System.out.println(userDto.getFirstName());
         userService.addStudent(userDto);
         return "/index";
     }

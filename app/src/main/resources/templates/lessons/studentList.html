@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}">
+
+<body>
+
+<table id="users" class="table table-striped">
+    <thead>
+    <tr>
+        <th class="text-center" th:text="#{user_full_name}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="text-center" th:each="userEntity : ${selections}">
+        <td>
+         <h3 th:text="${userEntity.fullName}"></h3>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

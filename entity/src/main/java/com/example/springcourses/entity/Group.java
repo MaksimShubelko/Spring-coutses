@@ -1,6 +1,8 @@
 package com.example.springcourses.entity;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,20 +21,17 @@ public class Group extends BaseEntity<Long> {
     @Column(name = "group_id")
     private Long groupId;
 
-    @OneToMany
-    @Column(name = "student_id")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @Column
     private List<Student> students;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
-    @Column(name = "lesson_id")
-    private List<Lesson> lessons;
+    @JoinColumn(name = "course_id")
+    @ManyToOne
+    private Course course;
 
     @Column(name = "description")
     private String description;
-
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST}, mappedBy = "group")
-    @Column(name = "test_id")
-    private List<Test> tests;
 
     @Override
     public Long getId() {

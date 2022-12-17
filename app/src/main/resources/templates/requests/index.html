@@ -1,12 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'users')}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <body>
 
-    <h1 th:text="'Requests Index Page'">Index page</h1>
+
+<form>
+    <h1 th:text="#{course_name}" class="text-center"></h1>
+    <table id="users" class="table table-striped">
+        <thead>
+        <th class="text-center" th:text="${courseDto.courseName}"></th>
+        <th sec:authorize="hasAuthority('STUDENT')">
+            <a th:href="@{/courses/__${courseDto.courseId}__/join}" th:text="#{course_join}"></a>
+        </th>
+        </thead>
+
+        <tbody>
+        <div th:each="requestDto, requestStat : ${selections}">
+            <tr>
+                <td th:text="${requestStat.count}"></td>
+                <td th:text="${requestDto.createdBy}"></td>
+                <td th:text="${#temporals.format(requestDto.lastModifiedAt, 'dd/MM/yyyy HH:mm', new java.util.Locale('it', 'IT'))}"></td>
+                <td >
+                    <a class="btn btn-success" th:text="#{requests_approve}"
+                            th:href="@{/courses/__${courseDto.courseId}__/groups/__${groupDto.groupId}__/requests/__${requestDto.requestId}__/approve}"></a>
+                </td>
+            </tr>
+        </div>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" th:href="@{/courses/__${courseDto.courseId}__/groups/find}" th:text="#{requests_back}"></a>
+</form>
 
 </body>
 </html>
